@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "934244117174",
+    "project_id": "fir-auth-flutter-biscuit",
+    "storage_bucket": "fir-auth-flutter-biscuit.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:934244117174:android:895fc742f88637a3f3d417",
+        "android_client_info": {
+          "package_name": "com.rei.rei_sugar"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKoxIG7WgISE0_cE4T2sScWr2GejbDrlo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
