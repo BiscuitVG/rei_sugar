@@ -47,7 +47,10 @@ class FirebaseAuthService{
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Logged in successfully!')),
       );
-      Navigator.pop(context); // Return to previous screen
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const ProductSearch()),
+      );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error: ${e.toString()}')),
