@@ -52,7 +52,7 @@ class LoginMethodScreen extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(height: 5),
+              const SizedBox(height: 15),
 
               //separator(or)
               Text(
@@ -64,8 +64,9 @@ class LoginMethodScreen extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(height: 5),
+              const SizedBox(height: 15),
 
+              //Email
               GestureDetector(
                 onTap: () => Navigator.push(
                   context,
@@ -89,6 +90,29 @@ class LoginMethodScreen extends StatelessWidget {
                   ),
                 ),
               ),
+
+              const SizedBox(height: 20),
+
+              //Not registered
+              GestureDetector(
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => LoginScreen(),
+                  ),
+                ),
+                child: Text(
+                  'I have an account?',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    decoration: TextDecoration.underline,
+                    decorationColor: Colors.white,
+                    fontSize: 12,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+
             ],
           ),
         ),
