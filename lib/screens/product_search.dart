@@ -93,6 +93,7 @@ class _ProductSearchState extends State<ProductSearch> {
           child: Column(
             //mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              const SizedBox(height: 20),
               // Back button row
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -114,7 +115,7 @@ class _ProductSearchState extends State<ProductSearch> {
               const SizedBox(height: 24),
               // Title
               Text(
-                'Search Product',
+                'Check Sugar Content',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 30,
@@ -140,7 +141,7 @@ class _ProductSearchState extends State<ProductSearch> {
               GestureDetector(
                 onTap: _isLoading ? null : _fetchSugarContent,
                 child: Container(
-                  width: double.infinity, // Make the button full width
+                  //width: double.infinity, // Make the button full width
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
@@ -152,7 +153,7 @@ class _ProductSearchState extends State<ProductSearch> {
                       color: Colors.blue,
                     )
                         : const Text(
-                      'Search',
+                      'Search Product',
                       style: TextStyle(
                         color: Colors.blue,
                         fontWeight: FontWeight.bold,
@@ -167,14 +168,15 @@ class _ProductSearchState extends State<ProductSearch> {
                 width: double.infinity, // Match the width of the buttons
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(5),
                 ),
                 padding: const EdgeInsets.all(15),
                 child: Text(
                   _sugarContent.isEmpty ? 'Results Here' : _sugarContent,
                   style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 16,
+                    color: Color(0xFF983c3c),
+                    //fontSize: 16,
+                    fontWeight: FontWeight.bold,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -184,9 +186,9 @@ class _ProductSearchState extends State<ProductSearch> {
               GestureDetector(
                 onTap: _saveSugars,
                 child: Container(
-                  width: double.infinity, // Match the width of the buttons
+                  //width: double.infinity, // Match the width of the buttons
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Colors.green,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   padding: const EdgeInsets.all(15),
@@ -194,7 +196,7 @@ class _ProductSearchState extends State<ProductSearch> {
                     child: Text(
                       'Save Sugars',
                       style: TextStyle(
-                        color: Colors.blue,
+                        color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
