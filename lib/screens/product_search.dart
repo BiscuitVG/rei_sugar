@@ -1,6 +1,6 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class ProductSearch extends StatefulWidget {
   const ProductSearch({super.key});
@@ -11,8 +11,9 @@ class ProductSearch extends StatefulWidget {
 
 class _ProductSearchState extends State<ProductSearch> {
   final _barcodeController = TextEditingController();
-  String _sugarContent = ''; // To store the sugar content or error message
-  bool _isLoading = false; // To show a loading indicator
+  String _sugarContent = '';
+  bool _isLoading = false;
+  double? _sugarValue; // To store the numeric sugar value for saving
 
   @override
   void dispose() {
@@ -32,23 +33,22 @@ class _ProductSearchState extends State<ProductSearch> {
     setState(() {
       _isLoading = true;
       _sugarContent = '';
+      _sugarValue = null; // Reset sugar value
     });
 
     try {
-      final url = Uri.parse('https://world.openfoodfacts.org/api/v3/product/$barcode.json');
+      final url = Uri.parse('https://world.openfoodfacts.org/api/v0/product/$barcode.json');
       final response = await http.get(url);
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        // Print the raw response to debug (optional, can remove after testing)
-        print('API Response: $data');
-        // Check if the product and nutriments data exist
         if (data['product'] != null &&
             data['product']['nutriments'] != null &&
             data['product']['nutriments']['sugars_100g'] != null) {
           final sugar = data['product']['nutriments']['sugars_100g'];
           setState(() {
             _sugarContent = 'Sugar Content: $sugar g per 100g';
+            _sugarValue = sugar is int ? (sugar as int).toDouble() : sugar as double?;
           });
         } else {
           setState(() {
@@ -71,24 +71,47 @@ class _ProductSearchState extends State<ProductSearch> {
     }
   }
 
+  void _saveSugars() {
+    if (_sugarValue != null) {
+      // Placeholder: Print the sugar value for now
+      print('Saving sugar value: $_sugarValue g per 100g');
+      // TODO: Pass the sugar value to another screen and save it in a table
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('No sugar content to save')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF0088ff),
-      body: Center(
+      body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 25),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            //mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              // Back button row
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.arrow_back, color: Colors.white),
+                    onPressed: () {
+                      Navigator.pop(context); // Go back to HomeScreen
+                    },
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
               // Logo
               Image.asset(
                 'lib/images/rei_ayanami.png',
                 height: 150,
               ),
-
               const SizedBox(height: 24),
-
               // Title
               Text(
                 'Search Product',
@@ -98,9 +121,7 @@ class _ProductSearchState extends State<ProductSearch> {
                   color: Colors.white,
                 ),
               ),
-
               const SizedBox(height: 24),
-
               // Barcode input field
               TextField(
                 controller: _barcodeController,
@@ -112,15 +133,14 @@ class _ProductSearchState extends State<ProductSearch> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                keyboardType: TextInputType.number, // Barcode is typically numeric
+                keyboardType: TextInputType.number,
               ),
-
               const SizedBox(height: 16),
-
               // Search button
               GestureDetector(
-                onTap: _isLoading ? null : _fetchSugarContent, // Disable button while loading
+                onTap: _isLoading ? null : _fetchSugarContent,
                 child: Container(
+                  width: double.infinity, // Make the button full width
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
@@ -141,23 +161,44 @@ class _ProductSearchState extends State<ProductSearch> {
                   ),
                 ),
               ),
-
               const SizedBox(height: 20),
-
-              // Result container
+              // Result container with fixed width
               Container(
-                padding: const EdgeInsets.all(15),
+                width: double.infinity, // Match the width of the buttons
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
                 ),
+                padding: const EdgeInsets.all(15),
                 child: Text(
-                  _sugarContent.isEmpty ? 'Enter a barcode to see sugar content' : _sugarContent,
+                  _sugarContent.isEmpty ? 'Results Here' : _sugarContent,
                   style: const TextStyle(
                     color: Colors.black,
                     fontSize: 16,
                   ),
                   textAlign: TextAlign.center,
+                ),
+              ),
+              const SizedBox(height: 20),
+              // Save Sugars button
+              GestureDetector(
+                onTap: _saveSugars,
+                child: Container(
+                  width: double.infinity, // Match the width of the buttons
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  padding: const EdgeInsets.all(15),
+                  child: const Center(
+                    child: Text(
+                      'Save Sugars',
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ],

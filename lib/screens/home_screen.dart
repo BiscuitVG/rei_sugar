@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rei_sugar/screens/login_screen.dart';
+import 'package:rei_sugar/screens/login_method_screen.dart';
 import 'package:rei_sugar/screens/product_search.dart';
 import 'package:rei_sugar/screens/view_history.dart';
 import 'package:firebase_auth/firebase_auth.dart'; //logout fun
@@ -36,7 +36,7 @@ class HomeScreen extends StatelessWidget {
                       await FirebaseAuth.instance.signOut(); // Sign out from Firebase
                       Navigator.pushAndRemoveUntil(
                         context,
-                        MaterialPageRoute(builder: (context) => const LoginScreen()),
+                        MaterialPageRoute(builder: (context) => const LoginMethodScreen()),
                             (route) => false, // Clear the navigation stack
                       );
                       ScaffoldMessenger.of(context).showSnackBar(
