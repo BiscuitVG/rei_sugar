@@ -23,7 +23,6 @@ void main() async{
   OpenFoodAPIConfiguration.userAgent = UserAgent(
     name: 'rei_sugar',
     version: '1.0',
-    //url: 'https://github.com/yourusername/rei_sugar', //optional
   );
   OpenFoodAPIConfiguration.globalLanguages = [
     OpenFoodFactsLanguage.ENGLISH,

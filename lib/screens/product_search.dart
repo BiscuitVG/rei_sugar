@@ -86,7 +86,9 @@ class _ProductSearchState extends State<ProductSearch> {
                 'lib/images/rei_ayanami.png',
                 height: 150,
               ),
+
               const SizedBox(height: 24),
+
               // Title
               Text(
                 'Search Product',
@@ -96,7 +98,9 @@ class _ProductSearchState extends State<ProductSearch> {
                   color: Colors.white,
                 ),
               ),
+
               const SizedBox(height: 24),
+
               // Barcode input field
               TextField(
                 controller: _barcodeController,
@@ -110,7 +114,9 @@ class _ProductSearchState extends State<ProductSearch> {
                 ),
                 keyboardType: TextInputType.number, // Barcode is typically numeric
               ),
+
               const SizedBox(height: 16),
+
               // Search button
               GestureDetector(
                 onTap: _isLoading ? null : _fetchSugarContent, // Disable button while loading
@@ -135,7 +141,9 @@ class _ProductSearchState extends State<ProductSearch> {
                   ),
                 ),
               ),
+
               const SizedBox(height: 20),
+
               // Result container
               Container(
                 padding: const EdgeInsets.all(15),
