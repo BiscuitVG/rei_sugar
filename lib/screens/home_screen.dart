@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:rei_sugar/screens/login_screen.dart';
 import 'package:rei_sugar/screens/product_search.dart';
 import 'package:rei_sugar/screens/view_history.dart';
+import 'package:firebase_auth/firebase_auth.dart'; //logout fun
 
 class HomeScreen extends StatelessWidget {
   final String email;
@@ -30,8 +32,13 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   IconButton(
                     icon: const Icon(Icons.logout_outlined, color: Colors.white),
-                    onPressed: () {
-                      Navigator.pop(context); // Go back to LoginScreen
+                    onPressed: () async {
+                      await FirebaseAuth.instance.signOut(); // Sign out from Firebase
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (context) => const LoginScreen()),
+                            (route) => false, // Clear the navigation stack
+                      );
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Logout successful!')),
                       );
