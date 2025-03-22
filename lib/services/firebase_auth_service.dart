@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rei_sugar/screens/home_screen.dart';
 import 'package:rei_sugar/screens/login_screen.dart';
-import 'package:rei_sugar/screens/product_search.dart';
 //since its outside the screens dir you have to specify the file path
 
 
@@ -23,7 +22,7 @@ class FirebaseAuthService{
         const SnackBar(content: Text('Account created successfully! Please log in.')),
       );
       // Navigate to LoginScreen after successful signup
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const LoginScreen()),
       );
@@ -48,7 +47,7 @@ class FirebaseAuthService{
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Logged in successfully!')),
       );
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => HomeScreen(email: email)),
       );

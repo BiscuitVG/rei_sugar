@@ -1,3 +1,4 @@
+// signup_screen.dart
 import 'package:flutter/material.dart';
 import 'package:rei_sugar/services/firebase_auth_service.dart';
 
@@ -39,20 +40,32 @@ class _SignupScreenState extends State<SignupScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF0088ff),
-      body: Center(
+      body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 25),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              //logo
-              Image.asset('lib/images/rei_ayanami.png',
-              height: 150,
+              const SizedBox(height: 20),
+              // Back button row
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.arrow_back, color: Colors.white),
+                    onPressed: () {
+                      Navigator.pop(context); // Go back to LoginMethodScreen
+                    },
+                  ),
+                ],
               ),
-
+              const SizedBox(height: 20),
+              // Logo
+              Image.asset(
+                'lib/images/rei_ayanami.png',
+                height: 150,
+              ),
               const SizedBox(height: 24),
-
-              //title
+              // Title
               Text(
                 'Create your account',
                 style: TextStyle(
@@ -61,10 +74,8 @@ class _SignupScreenState extends State<SignupScreen> {
                   color: Colors.white,
                 ),
               ),
-
               const SizedBox(height: 24),
-
-              //email text box
+              // Email text box
               TextField(
                 controller: _emailController,
                 decoration: InputDecoration(
@@ -76,10 +87,8 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                 ),
               ),
-
               const SizedBox(height: 16),
-
-              //password field
+              // Password field
               TextField(
                 controller: _passwordController,
                 obscureText: true,
@@ -92,10 +101,8 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                 ),
               ),
-
               const SizedBox(height: 20),
-
-              //sign up button
+              // Sign up button
               GestureDetector(
                 onTap: _signUp,
                 child: Container(
@@ -104,7 +111,8 @@ class _SignupScreenState extends State<SignupScreen> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   padding: const EdgeInsets.all(20),
-                  child: Text('Sign Up',
+                  child: const Text(
+                    'Sign Up',
                     style: TextStyle(
                       color: Colors.blue,
                       fontWeight: FontWeight.bold,

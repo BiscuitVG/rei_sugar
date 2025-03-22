@@ -39,20 +39,32 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF0088ff),
-      body: Center(
+      body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 25),
+          padding: const EdgeInsets.symmetric(horizontal: 25),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              //logo
-              Image.asset('lib/images/rei_ayanami.png',
+              const SizedBox(height: 20),
+              // Back button row
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.arrow_back, color: Colors.white),
+                    onPressed: () {
+                      Navigator.pop(context); // Go back to LoginMethodScreen
+                    },
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              // Logo
+              Image.asset(
+                'lib/images/rei_ayanami.png',
                 height: 150,
               ),
-
               const SizedBox(height: 24),
-
-              //title
+              // Title
               Text(
                 'Login to your account',
                 style: TextStyle(
@@ -61,10 +73,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   color: Colors.white,
                 ),
               ),
-
               const SizedBox(height: 24),
-
-              //email text box input
+              // Email text box input
               TextField(
                 controller: _emailController,
                 decoration: InputDecoration(
@@ -76,10 +86,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-
               const SizedBox(height: 16),
-
-              //password text box input
+              // Password text box input
               TextField(
                 controller: _passwordController,
                 obscureText: true,
@@ -92,10 +100,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-
               const SizedBox(height: 20),
-
-              //login button
+              // Login button
               GestureDetector(
                 onTap: _logIn,
                 child: Container(
@@ -105,7 +111,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   padding: const EdgeInsets.all(15),
                   child: const Center(
-                    child: Text('Login',
+                    child: Text(
+                      'Login',
                       style: TextStyle(
                         color: Colors.blue,
                         fontWeight: FontWeight.bold,
