@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:rei_sugar/screens/home_screen.dart';
 import 'package:rei_sugar/screens/login_screen.dart';
 import 'package:rei_sugar/screens/product_search.dart';
 //since its outside the screens dir you have to specify the file path
@@ -49,7 +50,7 @@ class FirebaseAuthService{
       );
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const ProductSearch()),
+        MaterialPageRoute(builder: (context) => HomeScreen(email: email)),
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
