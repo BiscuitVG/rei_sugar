@@ -48,7 +48,11 @@ class _ProductSearchState extends State<ProductSearch> {
           final sugar = data['product']['nutriments']['sugars_100g'];
           setState(() {
             _sugarContent = 'Sugar Content: $sugar g per 100g';
-            _sugarValue = sugar is int ? (sugar as int).toDouble() : sugar as double?;
+            if (sugar is int) {
+              _sugarValue = (sugar as int).toDouble();
+            } else {
+              _sugarValue = sugar as double?;
+            }
           });
         } else {
           setState(() {

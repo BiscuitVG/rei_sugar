@@ -89,7 +89,7 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
-              // View History button
+              // View History button(sugars)
               GestureDetector(
                 onTap: () {
                   Navigator.push(
@@ -99,15 +99,15 @@ class HomeScreen extends StatelessWidget {
                 },
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Colors.green,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   padding: const EdgeInsets.all(20),
                   child: const Center(
                     child: Text(
-                      'View History',
+                      'View Sugar Level',
                       style: TextStyle(
-                        color: Colors.blue,
+                        color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
