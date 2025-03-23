@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:rei_sugar/screens/save_sugars.dart';
 
 class ProductSearch extends StatefulWidget {
   const ProductSearch({super.key});
@@ -14,6 +17,7 @@ class _ProductSearchState extends State<ProductSearch> {
   String _sugarContent = '';
   bool _isLoading = false;
   double? _sugarValue; // To store the numeric sugar value for saving
+  String? _barcode; // To store the barcode for saving
 
   @override
   void dispose() {
@@ -34,6 +38,7 @@ class _ProductSearchState extends State<ProductSearch> {
       _isLoading = true;
       _sugarContent = '';
       _sugarValue = null; // Reset sugar value
+      _barcode = barcode; // Store the barcode
     });
 
     try {
@@ -75,11 +80,44 @@ class _ProductSearchState extends State<ProductSearch> {
     }
   }
 
-  void _saveSugars() {
-    if (_sugarValue != null) {
-      // Placeholder: Print the sugar value for now
-      print('Saving sugar value: $_sugarValue g per 100g');
-      // TODO: Pass the sugar value to another screen and save it in a table
+  Future<void> _saveSugars() async {
+    if (_sugarValue != null && _barcode != null) {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('User not authenticated')),
+        );
+        return;
+      }
+
+      try {
+        final now = DateTime.now();
+        final date = "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}";
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .collection('sugarSearches')
+            .add({
+          'barcode': _barcode,
+          'sugarValue': _sugarValue,
+          'date': date,
+          'timestamp': Timestamp.fromDate(now),
+        });
+
+        // Navigate to SaveSugars screen
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const SaveSugars()),
+        );
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Sugar value saved successfully!')),
+        );
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error saving sugar value: $e')),
+        );
+      }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('No sugar content to save')),
@@ -95,7 +133,6 @@ class _ProductSearchState extends State<ProductSearch> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 25),
           child: Column(
-            //mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(height: 20),
               // Back button row
@@ -145,7 +182,7 @@ class _ProductSearchState extends State<ProductSearch> {
               GestureDetector(
                 onTap: _isLoading ? null : _fetchSugarContent,
                 child: Container(
-                  //width: double.infinity, // Make the button full width
+                  //width: double.infinity, // Removed as per your change
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
@@ -169,17 +206,16 @@ class _ProductSearchState extends State<ProductSearch> {
               const SizedBox(height: 20),
               // Result container with fixed width
               Container(
-                width: double.infinity, // Match the width of the buttons
+                width: double.infinity, // Kept to ensure fixed width
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(5),
+                  borderRadius: BorderRadius.circular(5), // Your change
                 ),
                 padding: const EdgeInsets.all(15),
                 child: Text(
                   _sugarContent.isEmpty ? 'Results Here' : _sugarContent,
                   style: const TextStyle(
-                    color: Color(0xFF983c3c),
-                    //fontSize: 16,
+                    color: Color(0xFF983c3c), // Your change
                     fontWeight: FontWeight.bold,
                   ),
                   textAlign: TextAlign.center,
@@ -190,7 +226,7 @@ class _ProductSearchState extends State<ProductSearch> {
               GestureDetector(
                 onTap: _saveSugars,
                 child: Container(
-                  //width: double.infinity, // Match the width of the buttons
+                  //width: double.infinity, // Removed as per your change
                   decoration: BoxDecoration(
                     color: Colors.green,
                     borderRadius: BorderRadius.circular(12),

@@ -20,9 +20,9 @@ void main() async{
     await Firebase.initializeApp();
   }
 
-  await FirebaseFirestore.instance.collection('test').doc('testDoc').set({
+  /*await FirebaseFirestore.instance.collection('test').doc('testDoc').set({
     'message': 'Firestore is working!',
-  });
+  });*/
 
   /*// Configure OpenFoodFacts
   OpenFoodAPIConfiguration.userAgent = UserAgent(
