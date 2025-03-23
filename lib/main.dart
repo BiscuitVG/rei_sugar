@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'screens/splash_screen.dart'; //welcome screen of the app
@@ -18,6 +19,10 @@ void main() async{
   }else{
     await Firebase.initializeApp();
   }
+
+  await FirebaseFirestore.instance.collection('test').doc('testDoc').set({
+    'message': 'Firestore is working!',
+  });
 
   /*// Configure OpenFoodFacts
   OpenFoodAPIConfiguration.userAgent = UserAgent(
