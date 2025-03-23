@@ -60,7 +60,22 @@ class SaveSugars extends StatelessWidget {
                   }
                   if (snapshot.hasError) {
                     print('Firestore Error: ${snapshot.error}');
-                    return const Center(child: Text('Error fetching data'));
+                    if (snapshot.error.toString().contains('requires an index')) {
+                      return const Center(
+                        child: Text(
+                          'Error: Firestore index is being created. Please wait a few minutes and try again.',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Colors.white, fontSize: 18),
+                        ),
+                      );
+                    }
+                    return const Center(
+                      child: Text(
+                        'Error fetching data. Please check your internet connection and try again.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.white, fontSize: 18),
+                      ),
+                    );
                   }
                   if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
                     return Column(
@@ -108,14 +123,27 @@ class SaveSugars extends StatelessWidget {
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(12),
                           ),
-                          child: Text(
-                            isHealthy ? 'Healthy' : 'High!',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 24,
-                              color: isHealthy ? Colors.green : Colors.red,
-                            ),
-                            textAlign: TextAlign.center,
+                          child: Column(
+                            children: [
+                              Text(
+                                isHealthy ? 'Healthy' : 'High!',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 24,
+                                  color: isHealthy ? Colors.green : Colors.red,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                'Total Sugar: ${totalSugar.toStringAsFixed(1)} g',
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
                           ),
                         ),
                         const SizedBox(height: 20),
@@ -139,9 +167,28 @@ class SaveSugars extends StatelessWidget {
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        'Barcode: $barcode',
-                                        style: const TextStyle(fontSize: 16),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              'Barcode: $barcode',
+                                              style: const TextStyle(fontSize: 16),
+                                            ),
+                                          ),
+                                          IconButton(
+                                            icon: const Icon(Icons.delete, color: Colors.red),
+                                            onPressed: () async {
+                                              // Delete the document from Firestore
+                                              await doc.reference.delete();
+                                              ScaffoldMessenger.of(context).showSnackBar(
+                                                const SnackBar(
+                                                  content: Text('Entry deleted successfully'),
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        ],
                                       ),
                                       Text(
                                         'Sugar Result: $sugarValue g',
