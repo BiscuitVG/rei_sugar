@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rei_sugar/screens/login_method_screen.dart';
 import 'package:rei_sugar/screens/product_search.dart';
-import 'package:rei_sugar/screens/view_history.dart';
+import 'package:rei_sugar/screens/save_sugars.dart';
 import 'package:firebase_auth/firebase_auth.dart'; //logout fun
 
 class HomeScreen extends StatelessWidget {
@@ -94,7 +94,7 @@ class HomeScreen extends StatelessWidget {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const ViewHistory()),
+                    MaterialPageRoute(builder: (context) => const SaveSugars()),
                   );
                 },
                 child: Container(
