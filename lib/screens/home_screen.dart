@@ -47,19 +47,32 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 20),
-              // Centered CircleAvatar
+              // Centered CircleAvatar with "Welcome" text below
               Center(
-                child: CircleAvatar(
-                  radius: 60,
-                  backgroundColor: Colors.white,
-                  child: Text(
-                    firstLetter,
-                    style: const TextStyle(
-                      fontSize: 60,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.blue,
+                child: Column(
+                  children: [
+                    CircleAvatar(
+                      radius: 60,
+                      backgroundColor: Colors.white,
+                      child: Text(
+                        firstLetter,
+                        style: const TextStyle(
+                          fontSize: 60,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue,
+                        ),
+                      ),
                     ),
-                  ),
+                    const SizedBox(height: 10), // Add some spacing between the avatar and text
+                    const Text(
+                      'Welcome',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
                 ),
               ),
               const Spacer(),
