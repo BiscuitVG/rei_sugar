@@ -1,29 +1,45 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
-
 import 'login_method_screen.dart';
 
-class SplashScreen extends StatelessWidget {
+class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // Navigate to LoginMethodScreen after 3 seconds
+    Timer(const Duration(seconds: 3), () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginMethodScreen()),
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF0088ff),
+      backgroundColor: const Color(0xFF0088ff),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 25),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              //logo
-              Image.asset('lib/images/rei_ayanami.png',
+              // Logo
+              Image.asset(
+                'lib/images/rei_ayanami.png',
                 height: 150,
               ),
-
               const SizedBox(height: 24),
-
-              //title
-              Text(
+              // Title
+              const Text(
                 'rei_sugar',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -31,34 +47,11 @@ class SplashScreen extends StatelessWidget {
                   color: Colors.white,
                 ),
               ),
-
               const SizedBox(height: 44),
-
-              //get started button
-              GestureDetector(
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => LoginMethodScreen(),
-                  ),
-                ),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  padding: EdgeInsets.all(25),
-                  child: const Center(
-                    child: Text(
-                      'GetStarted',
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              )
+              // Circular loading animation
+              const CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+              ),
             ],
           ),
         ),
