@@ -111,7 +111,19 @@ class SaveSugars extends StatelessWidget {
                     totalSugar += (doc['sugarValue'] as num).toDouble();
                   }
 
-                  final isHealthy = totalSugar < 93.24;
+                  // New logic for status
+                  String status;
+                  Color statusColor;
+                  if (totalSugar < 31) {
+                    status = 'Healthy';
+                    statusColor = Colors.green;
+                  } else if (totalSugar >= 31 && totalSugar <= 93.24) {
+                    status = 'Moderate';
+                    statusColor = Colors.yellow;
+                  } else {
+                    status = 'Unhealthy!';
+                    statusColor = Colors.red;
+                  }
 
                   return Expanded(
                     child: Column(
@@ -126,11 +138,11 @@ class SaveSugars extends StatelessWidget {
                           child: Column(
                             children: [
                               Text(
-                                isHealthy ? 'Healthy' : 'High!',
+                                status,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 24,
-                                  color: isHealthy ? Colors.green : Colors.red,
+                                  color: statusColor,
                                 ),
                                 textAlign: TextAlign.center,
                               ),
