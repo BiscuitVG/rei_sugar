@@ -63,11 +63,11 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 10), // Add some spacing between the avatar and text
+                    const SizedBox(height: 40), // Spacing between the avatar and text
                     const Text(
-                      'Welcome',
+                      'Welcome User!',
                       style: TextStyle(
-                        fontSize: 24,
+                        fontSize: 35,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),

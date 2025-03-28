@@ -15,7 +15,8 @@ class ProductSearch extends StatefulWidget {
 class _ProductSearchState extends State<ProductSearch> {
   final _barcodeController = TextEditingController();
   String _sugarContent = '';
-  bool _isLoading = false;
+  bool _isLoading = false; // For Search Product loading
+  bool _isSaving = false; // For Save Sugars loading
   double? _sugarValue; // To store the numeric sugar value for saving
   String? _barcode; // To store the barcode for saving
 
@@ -90,6 +91,10 @@ class _ProductSearchState extends State<ProductSearch> {
         return;
       }
 
+      setState(() {
+        _isSaving = true; // Start loading
+      });
+
       try {
         final now = DateTime.now();
         final date = "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}";
@@ -117,6 +122,10 @@ class _ProductSearchState extends State<ProductSearch> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error saving sugar value: $e')),
         );
+      } finally {
+        setState(() {
+          _isSaving = false; // Stop loading
+        });
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -182,7 +191,7 @@ class _ProductSearchState extends State<ProductSearch> {
               GestureDetector(
                 onTap: _isLoading ? null : _fetchSugarContent,
                 child: Container(
-                  //width: double.infinity, // Removed as per your change
+                  //width: double.infinity,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
@@ -209,13 +218,13 @@ class _ProductSearchState extends State<ProductSearch> {
                 width: double.infinity, // Kept to ensure fixed width
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(5), // Your change
+                  borderRadius: BorderRadius.circular(5),
                 ),
                 padding: const EdgeInsets.all(15),
                 child: Text(
                   _sugarContent.isEmpty ? 'Results Here' : _sugarContent,
                   style: const TextStyle(
-                    color: Color(0xFF983c3c), // Your change
+                    color: Color(0xFF983c3c),
                     fontWeight: FontWeight.bold,
                   ),
                   textAlign: TextAlign.center,
@@ -224,16 +233,20 @@ class _ProductSearchState extends State<ProductSearch> {
               const SizedBox(height: 20),
               // Save Sugars button
               GestureDetector(
-                onTap: _saveSugars,
+                onTap: _isSaving ? null : _saveSugars, // Disable button while saving
                 child: Container(
-                  //width: double.infinity, // Removed as per your change
+                  //width: double.infinity,
                   decoration: BoxDecoration(
                     color: Colors.green,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   padding: const EdgeInsets.all(15),
-                  child: const Center(
-                    child: Text(
+                  child: Center(
+                    child: _isSaving
+                        ? const CircularProgressIndicator(
+                      color: Colors.white, // Match the text color
+                    )
+                        : const Text(
                       'Save Sugars',
                       style: TextStyle(
                         color: Colors.white,
