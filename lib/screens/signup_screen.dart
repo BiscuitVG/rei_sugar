@@ -14,7 +14,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final _passwordController = TextEditingController();
 
   @override
-  void dispose() {
+  void dispose() { // Clean up controllers to prevent memory leaks
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
@@ -24,7 +24,7 @@ class _SignupScreenState extends State<SignupScreen> {
     final email = _emailController.text;
     final password = _passwordController.text;
     if (email.isNotEmpty && password.isNotEmpty) {
-      FirebaseAuthService.signUp(
+      FirebaseAuthService.signUp( // Call FirebaseAuthService to sign up the user
         email: email,
         password: password,
         context: context,

@@ -26,7 +26,7 @@ class _ProductSearchState extends State<ProductSearch> {
     super.dispose();
   }
 
-  Future<void> _fetchSugarContent() async {
+  Future<void> _fetchSugarContent() async { // Fetch sugar content from OpenFoodFacts API using barcode
     final barcode = _barcodeController.text.trim();
     if (barcode.isEmpty) {
       setState(() {
@@ -81,7 +81,7 @@ class _ProductSearchState extends State<ProductSearch> {
     }
   }
 
-  Future<void> _saveSugars() async {
+  Future<void> _saveSugars() async { // Save sugar content to Firestore and navigate to SaveSugars screen
     if (_sugarValue != null && _barcode != null) {
       final user = FirebaseAuth.instance.currentUser;
       if (user == null) {

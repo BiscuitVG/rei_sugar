@@ -7,7 +7,7 @@ class SaveSugars extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = FirebaseAuth.instance.currentUser;
+    final user = FirebaseAuth.instance.currentUser; // Check if user is authenticated
     if (user == null) {
       return const Scaffold(
         body: Center(child: Text('User not authenticated')),
@@ -15,7 +15,7 @@ class SaveSugars extends StatelessWidget {
     }
 
     final now = DateTime.now();
-    final today = "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}";
+    final today = "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}"; // Get today's date in YYYY-MM-DD format
 
     return Scaffold(
       backgroundColor: Colors.green,
@@ -24,7 +24,9 @@ class SaveSugars extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 25),
           child: Column(
             children: [
+
               const SizedBox(height: 20),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -36,7 +38,9 @@ class SaveSugars extends StatelessWidget {
                   ),
                 ],
               ),
+
               const SizedBox(height: 20),
+
               const Text(
                 'Daily Sugar Intake',
                 style: TextStyle(
@@ -45,8 +49,10 @@ class SaveSugars extends StatelessWidget {
                   color: Colors.white,
                 ),
               ),
+
               const SizedBox(height: 20),
-              StreamBuilder<QuerySnapshot>(
+
+              StreamBuilder<QuerySnapshot>( // StreamBuilder to fetch and display sugar search entries for today
                 stream: FirebaseFirestore.instance
                     .collection('users')
                     .doc(user.uid)
@@ -56,7 +62,7 @@ class SaveSugars extends StatelessWidget {
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator(
+                    return const Center(child: CircularProgressIndicator( // Show loading indicator while data is being fetched
                       color: Colors.white,
                       ),
                     );
@@ -80,7 +86,7 @@ class SaveSugars extends StatelessWidget {
                       ),
                     );
                   }
-                  if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                  if (!snapshot.hasData || snapshot.data!.docs.isEmpty) { // Display message if no data is found for today
                     return Column(
                       children: [
                         Container(
@@ -109,12 +115,12 @@ class SaveSugars extends StatelessWidget {
                     );
                   }
 
-                  double totalSugar = 0;
+                  double totalSugar = 0; // Calculate total sugar intake
                   for (var doc in snapshot.data!.docs) {
                     totalSugar += (doc['sugarValue'] as num).toDouble();
                   }
 
-                  // New logic for status
+                  // Determine status based on total sugar intake
                   String status;
                   Color statusColor;
                   if (totalSugar < 31) {
@@ -149,7 +155,9 @@ class SaveSugars extends StatelessWidget {
                                 ),
                                 textAlign: TextAlign.center,
                               ),
+
                               const SizedBox(height: 8),
+
                               Text(
                                 'Total Sugar: ${totalSugar.toStringAsFixed(1)} g',
                                 style: const TextStyle(
@@ -161,9 +169,11 @@ class SaveSugars extends StatelessWidget {
                             ],
                           ),
                         ),
+
                         const SizedBox(height: 20),
+
                         Expanded(
-                          child: ListView.builder(
+                          child: ListView.builder( // List of sugar search entries
                             itemCount: snapshot.data!.docs.length,
                             itemBuilder: (context, index) {
                               final doc = snapshot.data!.docs[index];

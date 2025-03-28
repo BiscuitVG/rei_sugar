@@ -6,7 +6,7 @@ import 'screens/splash_screen.dart'; //welcome screen of the app
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  if(kIsWeb){
+  if(kIsWeb){ // Firebase configuration for web platform
     await Firebase.initializeApp(
         options: FirebaseOptions(
             apiKey: "AIzaSyDJal__ewnNenxAFujf-ad-7hCDNWjfOtM",
@@ -17,7 +17,7 @@ void main() async{
             appId: "1:934244117174:web:e14b15828b66284ef3d417",
             measurementId: "G-D24D19379W"));
   }else{
-    await Firebase.initializeApp();
+    await Firebase.initializeApp(); // Default Firebase initialization for mobile platforms
   }
 
   /*await FirebaseFirestore.instance.collection('test').doc('testDoc').set({
@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),*/
       debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
+      home: SplashScreen(), // Set the splash screen as the initial screen
     );
   }
  }

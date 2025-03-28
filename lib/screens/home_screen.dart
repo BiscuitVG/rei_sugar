@@ -5,13 +5,13 @@ import 'package:rei_sugar/screens/save_sugars.dart';
 import 'package:firebase_auth/firebase_auth.dart'; //logout fun
 
 class HomeScreen extends StatelessWidget {
-  final String email;
+  final String email; // User's email for displaying initial
 
   const HomeScreen({super.key, required this.email});
 
   @override
   Widget build(BuildContext context) {
-    final String firstLetter;
+    final String firstLetter; // Extract the first letter of the email for the avatar
     if (email.isNotEmpty) {
       firstLetter = email[0].toUpperCase();
     } else {
