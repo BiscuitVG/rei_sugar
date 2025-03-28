@@ -106,16 +106,19 @@ class _SignupScreenState extends State<SignupScreen> {
               GestureDetector(
                 onTap: _signUp,
                 child: Container(
+                  width: double.infinity,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  padding: const EdgeInsets.all(20),
-                  child: const Text(
-                    'Sign Up',
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold,
+                  padding: const EdgeInsets.all(15),
+                  child: const Center(
+                    child: Text(
+                      'Sign Up',
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
